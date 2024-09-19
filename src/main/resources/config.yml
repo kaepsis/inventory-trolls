@@ -1,0 +1,3 @@
+usage: "&cMissing player name! Correct usage is /inventoryshuffle <player>"
+inventory-shuffled: "&aDone! {playerName}'s inventory has been shuffled!"
+player-not-found: "&cError! A player with named {playerName} could not be found!"

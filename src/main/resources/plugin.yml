@@ -1,0 +1,13 @@
+name: InventoryShuffle
+main: dev.kaepsis.inventoryshuffle.InventoryShuffle
+author: Kaepsis
+api-version: 1.20
+version: '{version}'
+description: "Shuffles the inventory of a player. Perfect for trolling :)"
+
+commands:
+  inventoryshuffle:
+    usage: /inventoryshuffle <playerName>
+    description: "Shuffles a players inventory"
+    permission: inventoryshuffle.do
+    aliases: [ shuffle, ishuffle, invshuffle ]
