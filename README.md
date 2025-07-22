@@ -1,17 +1,10 @@
-# InventoryShuffle
+# inventory-trolls
 
-This plugin is intended to shuffle the whole inventory of a player.
+This plugin is made to troll a player shuffling or removing random amount of item from their inventory.
 
-**Tested versions:** 1.20.x
+Works on **Spigot/Paper** and versions **1.21.x**
 
-## Commands
-- `/inventoryshuffle <player>` - Shuffles a player's inventory
-
-## Permissions
-- inventoryshuffle.do: Allows the plugin to shuffle the inventory of a player
-
-## Aliases
-- `shuffle`, `ishuffle`, `invshuffle`
-
-## Support or questions?
-I provide support only on [EverCraft Network](https://discord.gg/3Yp6kt6C7X) - open a ticket and ask for **Kaepsis** specifying you need support for **InventoryShuffle** plugin
+## Commands & Permissions
+- `/shuffle <player>` - Shuffles a player's inventory | Requires permission **inventorytrolls.shuffle**
+- `/removeitem <player> <amount>` - Removes random x items from a player's inventory | Requires permission **inventorytrolls.removeitem**
+- `/itreload` - Reloads the configuration file | Requires permission **inventorytrolls.admin**

@@ -1,11 +1,11 @@
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id 'com.gradleup.shadow' version '9.0.0-rc1'
 }
 
-group = 'dev.kaepsis.inventoryshuffle'
-version = '1.0-SNAPSHOT'
-description = "InventoryShuffle"
+group = 'dev.kaepsis.inventorytrolls'
+version = '1.0'
+description = "inventory-trolls"
 
 repositories {
     mavenCentral()
@@ -13,16 +13,20 @@ repositories {
         name = "spigotmc-repo"
         url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
+    maven { url = "https://jitpack.io" }
+    maven { url = "https://repo.aikar.co/content/groups/aikar/" }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.20.6-R0.1-SNAPSHOT'
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    compileOnly 'org.spigotmc:spigot-api:1.21.7-R0.1-SNAPSHOT'
+
+    implementation "com.github.kaepsis:kutils:v1.9.6.2"
+    implementation "co.aikar:acf-paper:0.5.1-SNAPSHOT"
+    implementation 'com.github.NaTorOG:SimpleConfig:1.0.6'
 }
 
 processResources {
-    def props = ["version": project.version]
+    def props = ["version": version]
     inputs.properties props
     filteringCharset "UTF-8"
     filesMatching("plugin.yml") {
@@ -30,8 +34,16 @@ processResources {
     }
 }
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
 shadowJar {
     minimize()
     mergeServiceFiles()
     archiveFileName = "${project.description}-${project.version}.jar"
+    relocate "co.aikar.commands", "dev.kaepsis.inventorytrolls.libs.acf"
+    relocate "co.aikar.locales", "dev.kaepsis.inventorytrolls.libs.locales"
 }
