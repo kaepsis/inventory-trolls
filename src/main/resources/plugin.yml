@@ -2,5 +2,5 @@ name: InventoryTrolls
 main: dev.kaepsis.inventorytrolls.Main
 author: Kaepsis
 api-version: 1.21
-version: '${version}'
-description: "Shuffles the inventory of a player. Perfect for trolling :)"
+version: ${version}
+description: Execute actions at players' inventories. Perfect for trolling :)

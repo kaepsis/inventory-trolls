@@ -4,12 +4,13 @@ import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import com.github.kaepsis.Chat;
 import dev.kaepsis.inventorytrolls.InventoryUtils;
+import dev.kaepsis.inventorytrolls.PlayerUtils;
 import dev.kaepsis.inventorytrolls.configs.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandAlias("inventoryshuffle|shuffle")
+@CommandAlias("shuffle")
 @CommandPermission("inventoryshuffle.shuffle")
 @Description("Shuffles a player's inventory")
 public class ShuffleCommand extends BaseCommand {
@@ -23,16 +24,8 @@ public class ShuffleCommand extends BaseCommand {
     @Syntax("<player>")
     @CommandCompletion("@players")
     public void withArguments(CommandSender sender, String playerName) {
-        Player target = Bukkit.getPlayer(playerName);
-        if(target == null) {
-            Chat.getInstance().send(
-                    sender,
-                    Messages.getInstance().playerNotFound,
-                    "{playerName}", playerName
-            );
-            return;
-        }
-        InventoryUtils.getInstance().shuffle(target);
+        PlayerUtils.getInstance().ensurePlayer(sender, playerName)
+                .ifPresent(target -> InventoryUtils.getInstance().shuffle(target));
         Chat.getInstance().send(sender, Messages.getInstance().shuffleDone, "{playerName}", playerName);
     }
 }

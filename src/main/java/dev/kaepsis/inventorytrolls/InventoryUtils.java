@@ -25,27 +25,55 @@ public class InventoryUtils {
 
     public void shuffle(Player player) {
         Inventory inventory = player.getInventory();
-        List<ItemStack> contents = Arrays.asList(inventory.getContents());
-        Collections.shuffle(contents);
-        inventory.setContents(contents.toArray(new ItemStack[0]));
+        ItemStack[] contents = inventory.getContents();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        for (int i = contents.length - 1; i > 0; i--) {
+            int index = random.nextInt(i + 1);
+            ItemStack a = contents[index];
+            contents[index] = contents[i];
+            contents[i] = a;
+        }
+        inventory.setContents(contents);
     }
 
     public void removeRandomItem(Player player, int times) {
         Inventory inventory = player.getInventory();
-        List<ItemStack> nonEmptyItems = Arrays.stream(inventory.getContents())
-                .filter(item -> item != null && item.getType() != Material.AIR)
-                .toList();
-        if (nonEmptyItems.isEmpty()) return;
-        for (int i = 0; i < times; i++) {
-            List<ItemStack> currentItems = Arrays.stream(inventory.getContents())
-                    .filter(item -> item != null && item.getType() != Material.AIR)
-                    .toList();
-            if (currentItems.isEmpty()) break;
-            ItemStack randomItem = currentItems.get(ThreadLocalRandom.current().nextInt(currentItems.size()));
-            int index = inventory.first(randomItem);
-            inventory.setItem(index, null);
+        ItemStack[] contents = inventory.getContents();
+        int nonEmptyCount = countNonEmptyItems(contents);
+        if (nonEmptyCount <= 0) return;
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        for (int removed = 0; removed < times && nonEmptyCount > 0; removed++) {
+            int targetItem = random.nextInt(nonEmptyCount);
+            int slot = findNthNonEmptySlot(contents, targetItem);
+            inventory.setItem(slot, null);
+            nonEmptyCount--;
         }
     }
+
+    private int countNonEmptyItems(ItemStack[] items) {
+        int count = 0;
+        for (ItemStack item : items) {
+            if (isNonEmpty(item)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int findNthNonEmptySlot(ItemStack[] items, int targetIndex) {
+        int currentIndex = 0;
+        for (int slot = 0; slot < items.length; slot++) {
+            if (!isNonEmpty(items[slot])) continue;
+            if (currentIndex == targetIndex) return slot;
+            currentIndex++;
+        }
+        return -1;
+    }
+
+    private boolean isNonEmpty(ItemStack item) {
+        return item != null && item.getType() != Material.AIR;
+    }
+
 
 
 }
