@@ -12,7 +12,7 @@ Works on **Spigot/Paper** and versions **1.21.x**
 
 - Shuffles inventory
 - Removes an amount of random items from the inventory
-- Can exclude players from trolling (only "`*all`" commands`)
+- Can exclude players from trolling (only "`*all`" commands)
 
 ---
 
